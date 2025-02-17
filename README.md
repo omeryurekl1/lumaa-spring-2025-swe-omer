@@ -1,119 +1,169 @@
-# Full-Stack Coding Challenge
+# Task Management Application
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
+A full-stack task management application built with React + TypeScript (frontend), Node.js (backend), and PostgreSQL (database).
 
----
+## Features
 
-## Overview
+- User authentication (register/login) with JWT
+- Protected task management features
+- Create, read, update, and delete tasks
+- Mark tasks as complete/incomplete
+- Secure password hashing
+- TypeScript implementation
+- Material-UI for clean interface
 
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
+## Prerequisites
 
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
+- Node.js (v14 or higher)
+- PostgreSQL (v12 or higher)
+- npm or yarn
 
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
+## Setup Instructions
 
----
+### 1. Database Setup
 
-## Requirements
+1. Make sure PostgreSQL is running on your system
+2. Create a PostgreSQL user (if not exists):
+   ```bash
+   createuser -s postgres
+   ```
+3. Create the database and tables:
+   ```bash
+   psql postgres -f database.sql
+   ```
 
-### 1. Authentication
+### 2. Backend Setup
 
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
 
-### 2. Backend (Node.js or Nest.js)
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
+3. Create a `.env` file in the backend directory with the following content:
+   ```
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USERNAME=postgres
+   DB_PASSWORD=postgres
+   DB_DATABASE=task_management
+   JWT_SECRET=task_management_secret_key_change_in_production
+   PORT=3001
+   ```
 
-### 3. Frontend (React + TypeScript)
+4. Start the backend server:
+   ```bash
+   npm run dev
+   ```
 
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+The backend server will run on http://localhost:3001
 
----
+### 3. Frontend Setup
 
-## Deliverables
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
 
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
+3. Start the frontend development server:
+   ```bash
+   npm start
+   ```
 
----
+The frontend application will run on http://localhost:3000
 
-## Evaluation Criteria
+## API Endpoints
 
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
+### Authentication
+- `POST /auth/register` - Register a new user
+- `POST /auth/login` - Login user
 
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
+### Tasks (Protected Routes)
+- `GET /tasks` - Get all tasks for the authenticated user
+- `POST /tasks` - Create a new task
+- `PUT /tasks/:id` - Update a task
+- `DELETE /tasks/:id` - Delete a task
 
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
+## Testing
 
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
+1. Register a new account using the registration form
+2. Login with your credentials
+3. Create, edit, and delete tasks
+4. Mark tasks as complete/incomplete
+5. Test logout functionality
 
-Good luck, and we look forward to your submission!
+## Project Structure
+
+```
+├── backend/
+│   ├── src/
+│   │   ├── controllers/    (auth & task controllers)
+│   │   ├── entities/       (User & Task models)
+│   │   ├── middleware/     (auth middleware)
+│   │   ├── routes/         (auth & task routes)
+│   │   └── index.ts        (main app)
+│   ├── .env                (configuration)
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/     (LoginForm, RegisterForm, TaskList)
+│   │   ├── pages/         (LoginPage, TasksPage)
+│   │   ├── services/      (API calls)
+│   │   ├── utils/         (auth utilities)
+│   │   └── App.tsx        (main app with routing)
+│   └── package.json
+└── database.sql           (database setup)
+```
+
+## Technologies Used
+
+- Frontend:
+  - React
+  - TypeScript
+  - Material-UI
+  - React Router
+  - Axios
+
+- Backend:
+  - Node.js
+  - Express
+  - TypeORM
+  - PostgreSQL
+  - JWT
+  - bcrypt
+
+## Salary Expectations
+
+$25 - $30 an hour
+
+## Notes
+
+- The JWT secret in the .env file should be changed in a production environment
+- Password hashing is implemented using bcrypt
+- The frontend uses Material-UI for a clean, responsive interface
+- All routes under /tasks are protected and require authentication
+- The application uses TypeScript for better type safety and development experience
+
+## Video Demo
+
+[Click here to watch the demo video](https://www.loom.com/share/5badeb0d9ce04943a70898359d80adc3?sid=a6d79570-ef8f-4053-8df0-6fd3ffc3ffc2)
+
+For a detailed breakdown of the demo, see [DEMO.md](./DEMO.md)
+
+The demo video shows:
+- User registration process
+- Login functionality
+- Creating new tasks
+- Updating existing tasks
+- Marking tasks as complete
+- Deleting tasks
+- Protected routes in action 
